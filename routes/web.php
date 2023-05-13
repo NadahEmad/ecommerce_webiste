@@ -4,13 +4,34 @@
 use Illuminate\Support\Facades\Route;
 
 
+////***************************************************************************************//
+/////////////////////////////Dashboard Routes////////////////////////////////////////////////
+////***************************************************************************************//
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+  
+    ////***************************************************************************************//
+    ////////////////////////////////////Dashboard////////////////////////////////////////////////
+    ////***************************************************************************************//
+
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+
+    ////***************************************************************************************//
+    ////////////////////////////////////User Profile/////////////////////////////////////////////
+    ////***************************************************************************************//
+
+    Route::get('/user_profile',[UserController::class,'user_profile'])->name('user_profile');
+
+    Route::post('/user_profile/{id}/update',[UserController::class,'update_user_profile'])->name('user_profile.update');
+
+});
+
+
+ 
 require __DIR__.'/auth.php';
